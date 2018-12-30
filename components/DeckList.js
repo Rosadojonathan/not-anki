@@ -4,7 +4,7 @@ import { getData } from '../utils/api'
 import { connect } from 'react-redux'
 import { getDecks } from '../utils/api'
 import { receiveDecks } from '../actions'
-import { orange, white,grey, deepBlue,green } from '../utils/colors'
+import { black, white,grey, deepBlue,green,GhostWhite } from '../utils/colors'
 import { getCardsLength } from '../utils/helpers';
 import ActionButton from './ActionButton';
 
@@ -40,9 +40,9 @@ class DeckList extends React.Component {
 					return (
 						<View key={deck} style={styles.card}>
 							<Text style={styles.cardText}>{title}</Text>
-							<Text style={styles.cardText}>{vocab ? getCardsLength(vocab) : null}</Text>
+							<Text style={styles.cardVocab}>{vocab ? getCardsLength(vocab) : null}</Text>
 
-							<ActionButton styles={styles}
+							<ActionButton styles={styles} 
 									onPress={() => this.props.navigation.navigate('DeckView', {entryId: deck})}
 									text={"View Deck"}
 									color={deepBlue}
@@ -52,7 +52,7 @@ class DeckList extends React.Component {
 					)
 				})}
 			<View style={styles.box}>
-				<ActionButton color={green} styles={styles} text={'Refresh'}
+				<ActionButton color={green} styles={styles} style={styles.iosBtnRefresh} text={'Refresh'}
 					onPress={this.reFetch}
 				/>
 			</View>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignSelf: 'stretch',
-		padding: 5
+		padding: 8
 
 	},
 	box:{
@@ -76,10 +76,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: grey,
+		backgroundColor: GhostWhite,
 		margin: 8,
 		height: 200,
-		borderRadius: 10,
+		borderRadius: 12,
 		shadowColor: 'rgba(0,0,0,0.34)',
 		 shadowOffset: {
 		 	width: 0,
@@ -90,26 +90,56 @@ const styles = StyleSheet.create({
 	},
 	cardText: {
 		fontSize: 30,
-		color: white
+		color: black
+	},
+	cardVocab: {
+		fontSize: 20,
+		color: black,
+		marginBottom:20
 	},
 	cardBtn: {
 		flex: 1,
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		borderRadius:12,
+		shadowColor: 'rgba(0,0,0,0.34)',
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
+		shadowRadius: 4,
+		shadowOpacity: 1
 	},
 	iosBtn:{
     padding:10,
-    borderRadius:7,
+    borderRadius:12,
     height:45,
     margin:5,
     width:180,
-		justifyContent: 'center',
-		alignItems: 'center'
+	justifyContent: 'center',
+	alignItems: 'center',
+  },
+  iosBtnRefresh:{
+	padding:10,
+	borderRadius:12,
+	height:45,
+	margin:5,
+	width:180,
+	justifyContent: 'center',
+	alignItems: 'center',
+	marginTop:40
   },
 	submitBtnText:{
     color:white,
     fontSize:20,
-    textAlign:'center',
+	textAlign:'center',
+	shadowColor: 'rgba(0,0,0,0.34)',
+	shadowOffset: {
+		width: 0,
+		height: 3,
+	},
+	shadowRadius: 4,
+	shadowOpacity: 1
   },
 
 })

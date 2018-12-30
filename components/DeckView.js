@@ -5,7 +5,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { getData } from "../utils/api";
 import { connect } from 'react-redux';
 import ActionButton from './ActionButton';
-import { purple, white, red, grey, green} from '../utils/colors';
+import { purple, white, red, grey, green, deepBlue} from '../utils/colors';
 import { getCardsLength } from '../utils/helpers';
 
 
@@ -23,15 +23,15 @@ class DeckView extends Component {
 
           <ActionButton
           styles={styles}
-          text={'Ajouter Carte'}
+          text={'Add Card'}
           onPress={() => this.props.navigation.navigate('AddCard', {entryId:deck})}
           color={green}
           />
           <ActionButton
           styles={styles}
-          text={'Réviser'}
+          text={'Learning Session'}
           onPress={() => this.props.navigation.navigate('Quiz', {entryId:deck})}
-          color={purple}
+          color={deepBlue}
           />
         </View>
       </View>
@@ -50,12 +50,14 @@ const styles = StyleSheet.create({
     borderRadius:7,
     height:45,
     margin:5,
-    width:170
+    width:170,
+    marginBottom:20,
   },
   submitBtnText:{
     color:white,
     fontSize:22,
     textAlign:'center',
+    
   },
   card:{
     flex:1,

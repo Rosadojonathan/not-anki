@@ -49,7 +49,7 @@ class AddCard extends Component {
     return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <View style={styles.container}>
-        <Text style={styles.title}> What is the recto ?
+        <Text style={styles.title}> Front of Flashcard
         </Text>
         <TextInput style={styles.input}
                    onChangeText={(recto)=> this.setState({recto})}
@@ -58,7 +58,7 @@ class AddCard extends Component {
         </TextInput>
 
         <Text style={styles.title}>
-          What is the verso ?
+          Back
         </Text>
         <TextInput
           style={styles.input}
@@ -67,7 +67,7 @@ class AddCard extends Component {
         </TextInput>
 
 
-        <SubmitButton style={styles} onPress={()=> this.submitCard(deckName)} text={'Ajouter Carte'}/>
+        <SubmitButton style={styles} onPress={()=> this.submitCard(deckName)} text={'Add Card'}/>
 
 
       </View>
@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
+    top:-40
   },
   submitBtnText:{
     color:white,
@@ -98,6 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: green,
     borderRadius:7,
     overflow:'hidden',
+    marginTop:25
   },
   input:{
     width:250,

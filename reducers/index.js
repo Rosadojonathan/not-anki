@@ -4,7 +4,8 @@ import {
   RECEIVE_DECKS,
   ADD_CARD_TO_DECK,
   REMOVE_DECK,
-  INCREASE_DIFFICULTY
+  INCREASE_DIFFICULTY,
+  SCHEDULE_SETTER
 } from "../actions/index";
 
 function deck(state = {}, action) {
@@ -62,6 +63,26 @@ function deck(state = {}, action) {
             ...state[deck].vocab.slice(0,idx),
             {...state[deck].vocab[idx],
             difficulty: card.difficulty + 0.1
+          },
+          ...state[deck].vocab.slice(idx + 1)
+          ]
+        }
+      };
+    }
+    case SCHEDULE_SETTER:
+    {
+      let {card, decks, deck, multiplier } = action.data;
+      console.log(state[decks.title])
+      var idx = state[decks.title].vocab.findIndex(obj => obj.id === card.id)
+      return {
+        ...state,
+        [decks.title]:{
+          ...state[deck],
+          vocab:[
+            ...state[deck].vocab.slice(0,idx),
+            {...state[deck].vocab[idx],
+            interval: card.interval * multiplier,
+            dueDate: card.dueDate + card.interval
           },
           ...state[deck].vocab.slice(idx + 1)
           ]

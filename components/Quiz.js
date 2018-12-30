@@ -15,8 +15,8 @@ import { SubmitButton } from './SubmitButton';
 import { connect } from 'react-redux';
 import ActionButton from './ActionButton';
 import {Info} from './Info';
-import { increaseCardDifficulty } from "../utils/api";
-import { increaseDifficulty } from "../actions/index.js";
+import { increaseCardDifficulty, nextScheduleSetter } from "../utils/api";
+import { increaseDifficulty, scheduleSetter} from "../actions/index.js";
 
 class Quiz extends Component {
 
@@ -32,23 +32,19 @@ class Quiz extends Component {
     : this.setState({ showRecto:false})
   )
 
-  submitAnswer = (answer,id) => {
+  submitAnswer = (answer,id, multiplier) => {
     const { questionNumber } = this.state;
     const deck = this.props.navigation.state.params.entryId;
     const {decks } = this.props;
     // const easy = decks[deck].vocab[questionNumber].easyAnswer.toLowerCase()
-
+    nextScheduleSetter(deck,id,multiplier)
+    this.props.dispatch(scheduleSetter(decks[deck],deck,decks[deck].vocab[questionNumber],multiplier))
     if(answer == 'easy' || answer == "very easy"){
       this.setState({
         easy: this.state.easy + 1
       })
     } else{
       this.setState({ hard: this.state.hard + 1 })
-      increaseCardDifficulty(deck,id);
-      console.log(`deck is ${deck}`)
-      this.props.dispatch(increaseDifficulty(decks[deck],deck,decks[deck].vocab[questionNumber]));
-
-
     }
     this.setState({ questionNumber: this.state.questionNumber + 1, showRecto: false })
   }
@@ -68,8 +64,8 @@ class Quiz extends Component {
 
   render() {
     const { decks } = this.props;
-    console.log('logging props')
-    console.log(this.props)
+    // console.log('logging props')
+    // console.log(this.props)
     const deck = this.props.navigation.state.params.entryId;
     const number = this.state.questionNumber + 1;
     const { questionNumber } = this.state;
@@ -93,12 +89,12 @@ class Quiz extends Component {
       )
     }
     
-    const { difficulty } = this.props.decks[deck].vocab[questionNumber]
+    const { interval } = this.props.decks[deck].vocab[questionNumber]
 
     return (
       <View style={styles.container}>
         <View style={styles.card}>
-          {difficulty ? <Text>{difficulty}</Text> : null }
+          {interval ? <Text>{interval}</Text> : null }
 
           <Text style={styles.question}>{number} / {decks[deck].vocab.length}</Text>
 
@@ -110,9 +106,9 @@ class Quiz extends Component {
             :  <Info style={styles.switch} text={'Show Recto'} onPress={this.showVerso}></Info>}
 
         <View style={styles.line}>
-          <ActionButton color={red} styles={styles} text={'Hard'} onPress={() => this.submitAnswer('hard',decks[deck].vocab[questionNumber].id)} />
-          <ActionButton color={green} styles={styles}  text={'Easy'} onPress={() => this.submitAnswer('easy',decks[deck].vocab[questionNumber].id)}/>
-          <ActionButton color={deepGreen} styles={styles}  text={'Very Easy'} onPress={() => this.submitAnswer('very easy',decks[deck].vocab[questionNumber].id)}/>
+          <ActionButton color={red} styles={styles} text={'Hard'} onPress={() => this.submitAnswer('hard',decks[deck].vocab[questionNumber].id,1)} />
+          <ActionButton color={green} styles={styles}  text={'Easy'} onPress={() => this.submitAnswer('easy',decks[deck].vocab[questionNumber].id,2)}/>
+          <ActionButton color={deepGreen} styles={styles}  text={'Very Easy'} onPress={() => this.submitAnswer('very easy',decks[deck].vocab[questionNumber].id,3)}/>
         </View>
         </View>
       </View>
@@ -125,6 +121,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent:'center',
     alignItems:'center',
+
   },
   line:{
     flexDirection:'row'

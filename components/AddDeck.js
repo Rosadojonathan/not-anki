@@ -23,13 +23,13 @@ class AddDeck extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>What is the new decks name?</Text>
+        <Text style={styles.title}>What is the name of the new deck?</Text>
         <TextInput
           onChangeText={text => this.setState({ text: text })}
           value={this.state.text}
           style={styles.input}
         />
-        <SubmitButton style={styles} onPress={(this.submitName)} text={"Ajouter !"} />
+        <SubmitButton style={styles} onPress={(this.submitName)} text={"Add New Deck"} />
       </View>
     );
   }
@@ -51,8 +51,10 @@ const styles = StyleSheet.create({
     borderRadius:8
   },
   title:{
-    fontSize:30,
+    fontSize:28,
     color:'#333',
+    textAlign:'center',
+    margin:'auto'
   },
   submitBtn:{
     borderWidth:0.5,
