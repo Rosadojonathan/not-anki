@@ -11,11 +11,10 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import {orange, white,green } from '../utils/colors';
-import { addCardToDeck } from '../utils/api';
+import { addCardToDeck, TODAY } from '../utils/api';
 import { connect } from 'react-redux';
 import { addCard } from '../actions';
 import SubmitButton from './SubmitButton';
-
 class AddCard extends Component {
   state = {
     recto:'',
@@ -32,9 +31,10 @@ class AddCard extends Component {
           (value) => {
             console.log('card added :')
             console.log(value)
+            let dueDate = TODAY
             let { recto, verso, difficulty, interval, update, id} = value
             //waiting for the card obj to be returned by the api before dispatching the redux action creator
-            this.props.dispatch(addCard({recto, verso, difficulty, interval, update, id, deck}));
+            this.props.dispatch(addCard({recto, verso, difficulty, interval, update, id, deck,dueDate}));
             this.setState({ recto:'',verso:''});
             this.props.navigation.dispatch(NavigationActions.back({key:null}));
           }

@@ -29,7 +29,7 @@ function deck(state = {}, action) {
     case ADD_CARD_TO_DECK:
      {
       console.log('adding card to deck')
-      let { recto, verso, difficulty, interval, update, id,deck } = action.card;
+      let { recto, verso, difficulty, interval, update, id,deck,dueDate } = action.card;
       console.log(action)
       return {
         ...state,
@@ -37,7 +37,7 @@ function deck(state = {}, action) {
           ...state[deck],
           vocab: [
             ...state[deck].vocab,
-            { recto, verso, difficulty, interval, update, id }
+            { recto, verso, difficulty, interval, update, id, dueDate }
           ]
         }
       };
@@ -72,8 +72,11 @@ function deck(state = {}, action) {
     case SCHEDULE_SETTER:
     {
       let {card, decks, deck, multiplier } = action.data;
-      console.log(state[decks.title])
+      // console.log(state[decks.title])
       var idx = state[decks.title].vocab.findIndex(obj => obj.id === card.id)
+      card.interval === 0 ? card.interval = 1 : card.interval = card.interval; // otherwise you get stuck at 0 for future multiplications
+      nextInterval = card.interval * multiplier
+      nextDueDate = card.dueDate + nextInterval;
       return {
         ...state,
         [decks.title]:{
@@ -81,8 +84,8 @@ function deck(state = {}, action) {
           vocab:[
             ...state[deck].vocab.slice(0,idx),
             {...state[deck].vocab[idx],
-            interval: card.interval * multiplier,
-            dueDate: card.dueDate + card.interval
+            interval: nextInterval,
+            dueDate: nextDueDate
           },
           ...state[deck].vocab.slice(idx + 1)
           ]

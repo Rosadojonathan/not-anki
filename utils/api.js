@@ -71,6 +71,7 @@ export function nextScheduleSetter(deck,id, multiplier){
   .then(results => JSON.parse(results))
   .then(results => {
     const index = results[deck].vocab.map((e) =>  {return e.id }).indexOf(id)
+    results[deck].vocab[index].interval === 0 ? results[deck].vocab[index].interval = 1 : results[deck].vocab[index].interval;
     results[deck].vocab[index].interval *= multiplier;
     results[deck].vocab[index].dueDate += results[deck].vocab[index].interval;
     return results

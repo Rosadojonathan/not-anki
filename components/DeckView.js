@@ -6,7 +6,7 @@ import { getData } from "../utils/api";
 import { connect } from 'react-redux';
 import ActionButton from './ActionButton';
 import { purple, white, red, grey, green, deepBlue} from '../utils/colors';
-import { getCardsLength } from '../utils/helpers';
+import { getCardsLength, getCardsToReview, displayLearningSessionButton } from '../utils/helpers';
 
 
 class DeckView extends Component {
@@ -19,7 +19,7 @@ class DeckView extends Component {
       <View style={styles.container}>
         <View style={styles.card}>
           <Text style={styles.mainText}>{decks[deck].title}</Text>
-          <Text style={styles.subText}>{vocab ? getCardsLength(vocab) : null}</Text>
+          <Text style={styles.subText}>{vocab ? getCardsToReview(vocab) : null}</Text>
 
           <ActionButton
           styles={styles}
@@ -27,12 +27,23 @@ class DeckView extends Component {
           onPress={() => this.props.navigation.navigate('AddCard', {entryId:deck})}
           color={green}
           />
-          <ActionButton
-          styles={styles}
-          text={'Learning Session'}
-          onPress={() => this.props.navigation.navigate('Quiz', {entryId:deck})}
-          color={deepBlue}
-          />
+
+          {displayLearningSessionButton(vocab) === false  ?
+            <ActionButton
+            styles={styles}
+            text={'No cards left'}
+            color={grey}
+            />          
+          :
+            <ActionButton
+            styles={styles}
+            text={'Learning Session'}
+            onPress={() => this.props.navigation.navigate('Quiz', {entryId:deck})}
+            color={deepBlue}
+            />
+          }
+
+
         </View>
       </View>
     );

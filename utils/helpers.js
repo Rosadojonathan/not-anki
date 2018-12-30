@@ -4,6 +4,13 @@ import { Notifications, Permissions } from 'expo'
 
 const NOTIFICATION_KEY = 'flashcards: notifications'
 
+const DAY_IN_MINISECONDS = 24 * 60 * 60 * 1000;
+const getDaysSinceEpoch = () => (
+    Math.round(new Date().getTime() / DAY_IN_MINISECONDS)
+);
+export const TODAY = getDaysSinceEpoch();
+
+
 export const getCardsLength = (vocab) => {
 	if(vocab.length === 0) {
 		return <Text>0 cards</Text>
@@ -11,6 +18,36 @@ export const getCardsLength = (vocab) => {
 		return <Text>{vocab.length} cards</Text>
 	}else {
 		return <Text>1 card</Text>
+	} 
+}
+
+export const getCardsToReview = (vocab) => {
+	let toReview = 0;
+	vocab.forEach(word => {
+		if (word.dueDate <= TODAY){
+			toReview += 1;
+		}
+	})
+	if(toReview === 0) {
+		return <Text>0 cards</Text>
+	}else if (toReview > 1) {
+		return <Text>{toReview} cards</Text>
+	}else {
+		return <Text>1 card</Text>
+	} 
+}
+
+export const displayLearningSessionButton = (vocab) => {
+	let toReview = 0;
+	vocab.forEach(word => {
+		if (word.dueDate <= TODAY){
+			toReview += 1;
+		}
+	})
+	if(toReview === 0) {
+		return false
+	}else if (toReview >= 1) {
+		return true
 	}
 }
 
