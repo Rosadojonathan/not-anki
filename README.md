@@ -8,9 +8,11 @@ I tried to recreate a MVP of the popular flashcard app Anki using React Native a
 - Redux
 
 ## Screenshots 
+<img src="/screenshots/not-anki-1.jpg" width="300" />
+<img src="/screenshots/not-anki-2.jpg" width="300" />
 
-![not-anki-1](/screenshots/not-anki-1.jpg =300)
-![not-anki-2](/screenshots/not-anki-2.jpg =300)
+<!-- ![not-anki-1](/screenshots/not-anki-1.jpg =300)
+![not-anki-2](/screenshots/not-anki-2.jpg =300) -->
 
 ## Plans for the future
 
