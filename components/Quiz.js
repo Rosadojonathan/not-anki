@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import ActionButton from './ActionButton';
 import {Info} from './Info';
 import {  nextScheduleSetter,TODAY } from "../utils/api";
-import { scheduleSetter} from "../actions/index.js";
+import { scheduleSetter, receiveDecks} from "../actions/index.js";
 import DB from '../utils/db';
 
 class Quiz extends Component {

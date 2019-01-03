@@ -1,11 +1,12 @@
 # Flashcards - React Native - App
 
-I tried to recreate a MVP of the popular flashcard app Anki using React Native and Redux. I've always found Anki very useful for language learning and recoding the logic in React Native was a fun project.
+I tried to recreate a MVP of the popular flashcard app Anki using React Native, Redux and PouchDB/CouchDB for syncing with the Electron app counterpart. I've always found Anki very useful for language learning and recoding the logic in React Native was a fun project.
 
 ## Tech Stack
 
 - React Native (Expo)
 - Redux
+- PouchDB / CouchDB
 
 ## Screenshots 
 <img src="/screenshots/not-anki-1.jpg" width="300" />
