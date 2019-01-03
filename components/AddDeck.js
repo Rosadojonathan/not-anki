@@ -1,19 +1,23 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text, Button, TextInput } from "react-native";
-import { saveDeckTitle } from "../utils/api";
 import { addDeck } from "../actions";
 import { connect } from 'react-redux';
 import SubmitButton from './SubmitButton';
 import { green,white } from '../utils/colors';
+import DB from '../utils/db';
+
+
+
 class AddDeck extends Component {
   state = {
-    text: ""
+    db: new DB('jonathanrosado'),
+    text: "",
   };
 
   submitName = () => {
     const { text } = this.state;
     if(text){
-      saveDeckTitle(text);
+      this.state.db.saveDeck(text);
       this.props.dispatch(addDeck(text));
       this.props.navigation.navigate("DeckView", {entryId: text});
       this.setState({text:''})

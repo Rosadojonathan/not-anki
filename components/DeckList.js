@@ -1,37 +1,36 @@
 import React from 'react'
 import { StyleSheet, View, Text, Button, ScrollView } from 'react-native'
-import { getData } from '../utils/api'
+// import { getData } from '../utils/api'
 import { connect } from 'react-redux'
-import { getDecks } from '../utils/api'
+// import { getDecks } from '../utils/api'
 import { receiveDecks } from '../actions'
 import { black, white,grey, deepBlue,green,GhostWhite } from '../utils/colors'
 import { getCardsLength, getCardsToReview } from '../utils/helpers';
 import ActionButton from './ActionButton';
+import DB from '../utils/db';
 
 class DeckList extends React.Component {
-
-	componentDidMount(){
-		getDecks()
-		.then(decks => this.props.receiveAllDecks(decks))
-		.catch((error) => {
-			console.error(error);
-		})
+	state = {
+		db: new DB('jonathanrosado'),
 	}
 
- reFetch = () => {
-		getDecks()
-		.then(decks => this.props.receiveAllDecks(decks))
-		.catch((error) => {
-			console.error(error);
-		})
-	}
+    async componentDidMount() {
+        let decks = await this.state.db.initializeDB();
+        console.log(decks);
+        this.props.receiveAllDecks(decks)
+        
+    }
+
+
+	syncData = async () => {
+		await this.state.db.sync();
+		let decks = await this.state.db.initializeDB();
+        console.log(decks);
+        this.props.receiveAllDecks(decks);
+    }
 
 	render(){
 		const { decks } = this.props
-
-		// const decks = getData()
-
-
 
 		return(
 			<ScrollView style={styles.container}>
@@ -52,8 +51,8 @@ class DeckList extends React.Component {
 					)
 				})}
 			<View style={styles.box}>
-				<ActionButton color={green} styles={styles} style={styles.iosBtnRefresh} text={'Refresh'}
-					onPress={this.reFetch}
+				<ActionButton color={green} styles={styles} style={styles.iosBtnRefresh} text={'Sync Data'}
+					onPress={this.syncData}
 				/>
 			</View>
 			</ScrollView>

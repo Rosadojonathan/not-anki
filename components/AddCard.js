@@ -11,12 +11,17 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import {orange, white,green } from '../utils/colors';
-import { addCardToDeck, TODAY } from '../utils/api';
+import { TODAY } from '../utils/api';
 import { connect } from 'react-redux';
 import { addCard } from '../actions';
 import SubmitButton from './SubmitButton';
+import DB from '../utils/db';
+
+
+
 class AddCard extends Component {
   state = {
+    db: new DB('jonathanrosado'),
     recto:'',
     verso:'',
     correctAnswer:'',
@@ -27,7 +32,7 @@ class AddCard extends Component {
 
       if(recto && verso){
 
-        addCardToDeck(deck,{recto,verso}).then(
+        this.state.db.addCardToDeck(deck,{recto,verso}).then(
           (value) => {
             console.log('card added :')
             console.log(value)

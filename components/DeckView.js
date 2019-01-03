@@ -2,11 +2,10 @@
 
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { getData } from "../utils/api";
 import { connect } from 'react-redux';
 import ActionButton from './ActionButton';
 import { purple, white, red, grey, green, deepBlue} from '../utils/colors';
-import { getCardsLength, getCardsToReview, displayLearningSessionButton } from '../utils/helpers';
+import {getCardsToReview, displayLearningSessionButton } from '../utils/helpers';
 
 
 class DeckView extends Component {

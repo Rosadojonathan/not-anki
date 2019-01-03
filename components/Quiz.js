@@ -15,10 +15,12 @@ import ActionButton from './ActionButton';
 import {Info} from './Info';
 import {  nextScheduleSetter,TODAY } from "../utils/api";
 import { scheduleSetter} from "../actions/index.js";
+import DB from '../utils/db';
 
 class Quiz extends Component {
 
   state = {
+    db: new DB('jonathanrosado'),
     questionNumber:0,
     questionState:0,
     showRecto:false,
@@ -38,7 +40,7 @@ class Quiz extends Component {
     const deckToReviewToday = decks[deck].vocab.filter(word => word.dueDate <= TODAY)
 
     // const easy = decks[deck].vocab[questionNumber].easyAnswer.toLowerCase()
-    nextScheduleSetter(deck,id,multiplier)
+    this.state.db.nextScheduleSetter(deck,id,multiplier)
     this.props.dispatch(scheduleSetter(decks[deck],deck,deckToReviewToday[this.state.questionState],multiplier))
     if(answer == 'easy' || answer == "very easy"){
       this.setState({
@@ -73,7 +75,11 @@ class Quiz extends Component {
     this.props.navigation.dispatch(NavigationActions.back({key:null}))
   }
 
-  componentDidMount(){
+  async componentDidMount(){
+    let decks_received = await this.state.db.initializeDB();
+    console.log(decks_received);
+    this.props.dispatch(receiveDecks(decks_received))
+
     const { decks } = this.props;
     const deck = this.props.navigation.state.params.entryId;
     const deckToReviewToday = decks[deck].vocab.filter(word => word.dueDate <= TODAY)
